@@ -1,7 +1,11 @@
-import { firestoreDeleteDeletedThing, ThingWithChange } from "./firestore";
+import {
+  firestoreDeleteDeletedThing,
+  firestoreStoreThing,
+  ThingWithChange,
+} from "./firestore";
 import { thingTagFromId } from "./utils";
 import ThingItem from "./ThingItem";
-import { ThingTag } from "./schema";
+import { Thing, ThingTag } from "./schema";
 
 interface DeletedThingsProps {
   thingTags: readonly ThingTag[];
@@ -16,6 +20,11 @@ export default function DeletedThings({
     firestoreDeleteDeletedThing(id, () => console.log("deleted"));
   };
 
+  const recoverDeletedThing = (thing: Thing) => {
+    firestoreDeleteDeletedThing(thing.id, () => console.log("deleted"));
+    firestoreStoreThing(thing, () => console.log("recovered"));
+  };
+
   return (
     <section>
       <ul className="list">
@@ -24,6 +33,7 @@ export default function DeletedThings({
             key={thing.id}
             thing={thing}
             onRemove={removeDeletedThing}
+            onRecover={recoverDeletedThing}
             getTag={thingTagFromId(thingTags)}
           />
         ))}

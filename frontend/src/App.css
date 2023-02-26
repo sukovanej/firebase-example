@@ -5,6 +5,7 @@
   --button-color: #125ba1;
   --danger-color: #c91e18;
   --danger-light-color: #fce8e8;
+  --success-color: #4ca888;
 
   --modified-color: #fafcd2;
   --added-color: #e6ffea;
@@ -112,6 +113,17 @@ button.delete-btn {
 button.delete-btn:hover {
   color: #fff;
   background-color: var(--danger-color);
+}
+
+button.success-btn {
+  background-color: #fff;
+  color: var(--success-color);
+  border: 1px solid var(--success-color);
+}
+
+button.success-btn:hover {
+  color: #fff;
+  background-color: var(--success-color);
 }
 
 @keyframes added-animation {
