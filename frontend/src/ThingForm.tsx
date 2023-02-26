@@ -11,11 +11,10 @@ interface ThingFormProps {
 
 const colourStyles: StylesConfig<ThingTag, true> = {
   control: (styles) => ({ ...styles, backgroundColor: "white", height: 50 }),
-  option: (styles, { data, isDisabled }) => ({
+  option: (styles, { data, isFocused }) => ({
     ...styles,
-    backgroundColor: "#fff",
-    color: data.color,
-    cursor: isDisabled ? "not-allowed" : "default",
+    backgroundColor: (isFocused && data.color) || "#fff",
+    color: (isFocused && "#fff") || data.color,
   }),
   multiValue: (styles, { data }) => ({
     ...styles,
