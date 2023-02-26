@@ -35,7 +35,7 @@ export default function AppLogged({ user, onLogout }: AppLoggedProps) {
       user.uid,
       (things) => {
         setThings(things);
-        setTimeout(onThingsChangesRendered, 1000);
+        setTimeout(onThingsChangesRendered, 500);
       },
       setError
     );
@@ -43,7 +43,7 @@ export default function AppLogged({ user, onLogout }: AppLoggedProps) {
       user.uid,
       (things) => {
         setDeletedThings(things);
-        setTimeout(onDeletedThingsChangesRendered, 1000);
+        setTimeout(onDeletedThingsChangesRendered, 500);
       },
       setError
     );
