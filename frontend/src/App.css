@@ -248,7 +248,11 @@ nav > a.active {
 }
 
 .thing-tags-select {
-  width: 400px;
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
 }
 
 .thing-tags-with-meta {
@@ -260,10 +264,4 @@ nav > a.active {
   display: flex;
   flex-direction: column;
   row-gap: 5px;
-}
-
-.thing-form-meta {
-  display: flex;
-  justify-content: space-between;
-  column-gap: 10px;
 }

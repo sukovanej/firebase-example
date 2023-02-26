@@ -10,7 +10,7 @@ interface ThingFormProps {
 }
 
 const colourStyles: StylesConfig<ThingTag, true> = {
-  control: (styles) => ({ ...styles, backgroundColor: "white" }),
+  control: (styles) => ({ ...styles, backgroundColor: "white", height: 50 }),
   option: (styles, { data, isDisabled }) => ({
     ...styles,
     backgroundColor: "#fff",
@@ -20,6 +20,8 @@ const colourStyles: StylesConfig<ThingTag, true> = {
   multiValue: (styles, { data }) => ({
     ...styles,
     backgroundColor: data.color,
+    borderRadius: "3px",
+    padding: "4px",
   }),
   multiValueLabel: (styles, { data }) => ({
     ...styles,
@@ -61,23 +63,21 @@ export default function ThingForm({
         value={thing.value}
       />
 
-      <div className="thing-form-meta">
-        <Select
-          placeholder="Tags"
-          className="thing-tags-select"
-          closeMenuOnSelect={false}
-          value={selectedOptions}
-          onChange={(tags) =>
-            onChange({ ...thing, tags: tags.map(({ id }) => id) })
-          }
-          isMulti
-          options={thingTagOptions}
-          styles={colourStyles}
-        />
-        <button className="btn" onClick={onSubmit}>
-          Add new thing
-        </button>
-      </div>
+      <Select
+        placeholder="Tags"
+        className="thing-tags-select"
+        closeMenuOnSelect={false}
+        value={selectedOptions}
+        onChange={(tags) =>
+          onChange({ ...thing, tags: tags.map(({ id }) => id) })
+        }
+        isMulti
+        options={thingTagOptions}
+        styles={colourStyles}
+      />
+      <button className="btn full-width" onClick={onSubmit}>
+        Add new thing
+      </button>
     </div>
   );
 }
