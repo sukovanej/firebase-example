@@ -58,9 +58,9 @@ export default function ThingForm({
         className="input"
         onChange={(e) => onChange({ ...thing, value: e.currentTarget.value })}
         rows={10}
-      >
-        {thing.value}
-      </textarea>
+        value={thing.value}
+      />
+
       <div className="thing-form-meta">
         <Select
           placeholder="Tags"
