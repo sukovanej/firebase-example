@@ -8,11 +8,18 @@
 
   --modified-color: #fafcd2;
   --added-color: #e6ffea;
+
+  --boxed-padding: 10px;
 }
 
 * {
-  font-family: "Roboto", sans-serif;
-  font-size: 16px;
+  font-family: "Golos Text", sans-serif;
+  font-size: 20px;
+}
+
+p {
+  color: #555;
+  text-align: justify;
 }
 
 h1 {
@@ -42,7 +49,7 @@ header > .user {
 button.btn {
   border: 1px solid var(--button-color);
   border-radius: 3px;
-  padding: 10px;
+  padding: var(--boxed-padding);
   background-color: #fff;
   color: var(--button-color);
 }
@@ -56,7 +63,7 @@ button.btn:hover {
 input.input {
   border: 1px solid #ddd;
   border-radius: 3px;
-  padding: 10px;
+  padding: var(--boxed-padding);
   color: #555;
   outline: none;
 }
@@ -65,9 +72,19 @@ input.input:focus {
   border: 1px solid #bbb;
 }
 
-.line-form-group {
-  display: flex;
-  column-gap: 5px;
+textarea {
+  font-family: "JetBrains Mono", monospace;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 20px 20px;
+  color: #555;
+  font-size: 20px;
+  resize: none;
+  outline: none;
+}
+
+textare:focus {
+  border: 1px solid #bbb;
 }
 
 ul.list {
@@ -97,12 +114,6 @@ button.delete-btn:hover {
   background-color: var(--danger-color);
 }
 
-.list-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 @keyframes added-animation {
   from {
     background-color: var(--added-color);
@@ -115,9 +126,11 @@ button.delete-btn:hover {
 @keyframes removed-animation {
   from {
     background-color: var(--danger-light-color);
+    height: 100%;
   }
   to {
     background-color: #fff;
+    height: 0;
   }
 }
 
@@ -150,7 +163,7 @@ button.delete-btn:hover {
   color: var(--badge-color);
   border: 1px solid var(--badge-color);
   border-radius: 3px;
-  padding: 10px;
+  padding: var(--boxed-padding);
 }
 
 a {
@@ -172,7 +185,7 @@ nav > a {
   border: 1px solid var(--nav-color);
   color: var(--nav-color);
   border-radius: 3px;
-  padding: 10px;
+  padding: var(--boxed-padding);
 }
 
 nav > a.active {
@@ -220,7 +233,7 @@ nav > a.active {
 }
 
 .thing-tag {
-  padding: 10px;
+  padding: var(--boxed-padding);
   color: #fff;
   border-radius: 3px;
 }
@@ -236,4 +249,21 @@ nav > a.active {
 
 .thing-tags-select {
   width: 400px;
+}
+
+.thing-tags-with-meta {
+  display: flex;
+  justify-content: space-between;
+}
+
+.thing-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+
+.thing-form-meta {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 10px;
 }

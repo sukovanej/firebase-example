@@ -1,9 +1,11 @@
 import { ThingInput, ThingTag } from "./schema";
 import Select, { StylesConfig } from "react-select";
+import { thingTagFromId } from "./utils";
 
 interface ThingFormProps {
   thing: ThingInput;
   onChange: (thingInput: ThingInput) => void;
+  onSubmit: () => void;
   thingTags: readonly ThingTag[];
 }
 
@@ -33,33 +35,49 @@ const colourStyles: StylesConfig<ThingTag, true> = {
   }),
 };
 
+const thingTagToOption = (thingTag: ThingTag) => ({
+  ...thingTag,
+  label: thingTag.name,
+  value: thingTag.id,
+});
+
 export default function ThingForm({
   thing,
   onChange,
+  onSubmit,
   thingTags,
 }: ThingFormProps) {
-  const thingTagOptions = thingTags.map((thingTag) => ({
-    ...thingTag,
-    label: thingTag.name,
-    value: thingTag.id,
-  }));
+  const thingTagOptions = thingTags.map(thingTagToOption);
+  const selectedOptions = thing.tags
+    .map(thingTagFromId(thingTags))
+    .map(thingTagToOption);
 
   return (
-    <>
-      <input
+    <div className="thing-form">
+      <textarea
         className="input"
-        type="text"
-        value={thing.value}
         onChange={(e) => onChange({ ...thing, value: e.currentTarget.value })}
-      />
-      <Select
-        className="thing-tags-select"
-        closeMenuOnSelect={false}
-        defaultValue={[]}
-        isMulti
-        options={thingTagOptions}
-        styles={colourStyles}
-      />
-    </>
+        rows={10}
+      >
+        {thing.value}
+      </textarea>
+      <div className="thing-form-meta">
+        <Select
+          placeholder="Tags"
+          className="thing-tags-select"
+          closeMenuOnSelect={false}
+          value={selectedOptions}
+          onChange={(tags) =>
+            onChange({ ...thing, tags: tags.map(({ id }) => id) })
+          }
+          isMulti
+          options={thingTagOptions}
+          styles={colourStyles}
+        />
+        <button className="btn" onClick={onSubmit}>
+          Add new thing
+        </button>
+      </div>
+    </div>
   );
 }

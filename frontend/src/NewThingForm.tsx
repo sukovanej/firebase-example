@@ -14,14 +14,24 @@ export default function NewThingForm({
   thingTags,
   user,
 }: NewThingFormProps) {
-  const [thing, setThing] = useState<ThingInput>({ value: "", uid: user.uid });
+  const EMPTY_THING = {
+    value: "",
+    uid: user.uid,
+    tags: [],
+  } as const;
+
+  const [thing, setThing] = useState<ThingInput>(EMPTY_THING);
+  const onFormSubmit = () => {
+    onSubmit(thing);
+    setThing(EMPTY_THING);
+  };
 
   return (
-    <div className="line-form-group">
-      <ThingForm thing={thing} thingTags={thingTags} onChange={setThing} />
-      <button className="btn" onClick={() => onSubmit(thing)}>
-        Add new thing
-      </button>
-    </div>
+    <ThingForm
+      thing={thing}
+      thingTags={thingTags}
+      onChange={setThing}
+      onSubmit={onFormSubmit}
+    />
   );
 }

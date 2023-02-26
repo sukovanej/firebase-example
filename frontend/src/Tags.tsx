@@ -12,7 +12,7 @@ interface TagsProps {
 
 export default function Tags({ user }: TagsProps) {
   const [color, setColor] = useState("#22194D");
-  const [name, setName] = useState("");
+  const [name, setName] = useState("Name your tag");
   const [thingTags, setThingTags] = useState<null | readonly ThingTag[]>(null);
   const [error, setError] = useState<null | string>(null);
 
@@ -44,12 +44,12 @@ export default function Tags({ user }: TagsProps) {
       </div>
 
       <h2>New tag</h2>
+
       <div className="form">
         <input
           className="input"
           type="text"
           value={name}
-          placeholder="Tag name"
           onChange={(e) => setName(e.currentTarget.value)}
         />
         <div className="color-picker">

@@ -8,6 +8,7 @@ const firestoreTimestampSchema = pipe(
 const thingInputSchema = S.struct({
   value: S.string,
   uid: S.string,
+  tags: S.array(S.string),
 });
 
 export type ThingInput = S.Infer<typeof thingInputSchema>;

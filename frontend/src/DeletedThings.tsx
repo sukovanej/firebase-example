@@ -1,16 +1,22 @@
-import * as RA from "@effect/data/ReadonlyArray";
-import { FieldTimeOutlined, LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
-import { setupDeletedThingsSnapshot, ThingWithChange } from "./firestore";
-import { humanReadableDuration } from "./utils";
+import {
+  firestoreDeleteDeletedThing,
+  setupDeletedThingsSnapshot,
+  ThingWithChange,
+} from "./firestore";
+import { thingTagFromId } from "./utils";
 import { User } from "firebase/auth";
+import ThingItem from "./ThingItem";
+import { ThingTag } from "./schema";
 
 interface DeletedThingsProps {
   user: User;
+  thingTags: readonly ThingTag[];
 }
 
-export default function DeletedThings({ user }: DeletedThingsProps) {
+export default function DeletedThings({ user, thingTags }: DeletedThingsProps) {
   const [error, setError] = useState<null | string>(null);
   const [things, setThings] = useState<null | readonly ThingWithChange[]>(null);
 
@@ -26,6 +32,10 @@ export default function DeletedThings({ user }: DeletedThingsProps) {
     [setupDeletedThingsSnapshot]
   );
 
+  const removeDeletedThing = (id: string) => {
+    firestoreDeleteDeletedThing(id, () => console.log("deleted"));
+  };
+
   return (
     <section>
       {error && (
@@ -36,26 +46,18 @@ export default function DeletedThings({ user }: DeletedThingsProps) {
       )}
       {isLoading && <LoadingOutlined async />}
 
-      {things && (
+      {things && things.length == 0 && <em>No deleted things yet.</em>}
+
+      {things && things.length > 0 && (
         <ul className="list">
-          {things.map(({ value, id, createdAt, change }, idx) => {
-            const className =
-              "list-item" + (change === null ? "" : ` list-item-${change}`);
-
-            if (change === "removed") {
-              setTimeout(() => setThings(RA.remove(things, idx)), 500);
-            }
-
-            return (
-              <li className={className} key={id}>
-                {value}
-                <span className="badge">
-                  <FieldTimeOutlined />
-                  {humanReadableDuration(createdAt.seconds * 1000)}
-                </span>
-              </li>
-            );
-          })}
+          {things.map((thing) => (
+            <ThingItem
+              key={thing.id}
+              thing={thing}
+              onRemove={removeDeletedThing}
+              getTag={thingTagFromId(thingTags)}
+            />
+          ))}
         </ul>
       )}
     </section>

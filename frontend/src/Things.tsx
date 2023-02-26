@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import * as RA from "@effect/data/ReadonlyArray";
-import {
-  DeleteOutlined,
-  FieldTimeOutlined,
-  LoadingOutlined,
-} from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 
 import {
   firestoreDeleteThing,
@@ -12,10 +7,11 @@ import {
   setupThingsSnapshot,
   ThingWithChange,
 } from "./firestore";
-import { humanReadableDuration } from "./utils";
+import { thingTagFromId } from "./utils";
 import { User } from "firebase/auth";
 import { ThingInput, ThingTag } from "./schema";
 import NewThingForm from "./NewThingForm";
+import ThingItem from "./ThingItem";
 
 interface ThingsProps {
   user: User;
@@ -59,32 +55,14 @@ export default function Things({ user, thingTags }: ThingsProps) {
 
       {things && (
         <ul className="list">
-          {things.map(({ value, id, createdAt, change }, idx) => {
-            const className =
-              "list-item" + (change === null ? "" : ` list-item-${change}`);
-
-            if (change === "removed") {
-              setTimeout(() => setThings(RA.remove(things, idx)), 500);
-            }
-
-            return (
-              <li className={className} key={id}>
-                {value}
-                <div className="thing-meta">
-                  <span className="badge">
-                    <FieldTimeOutlined />
-                    {humanReadableDuration(createdAt.seconds * 1000)}
-                  </span>
-                  <button
-                    onClick={() => removeThing(id)}
-                    className="delete-btn btn"
-                  >
-                    <DeleteOutlined />
-                  </button>
-                </div>
-              </li>
-            );
-          })}
+          {things.map((thing) => (
+            <ThingItem
+              key={thing.id}
+              thing={thing}
+              onRemove={removeThing}
+              getTag={thingTagFromId(thingTags)}
+            />
+          ))}
         </ul>
       )}
     </section>

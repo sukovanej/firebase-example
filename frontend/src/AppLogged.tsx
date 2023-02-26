@@ -18,10 +18,13 @@ export default function AppLogged({ user, onLogout }: AppLoggedProps) {
   const [error, setError] = useState<null | string>(null);
   const [tags, setTags] = useState<null | readonly ThingTag[]>(null);
 
-  useEffect(
-    () => setupThingTagsSnapshot(user.uid, setTags, setError),
-    [user.uid]
-  );
+  useEffect(() => {
+    const unsubscribeTags = setupThingTagsSnapshot(user.uid, setTags, setError);
+
+    return () => {
+      unsubscribeTags();
+    };
+  }, [user.uid]);
 
   return (
     <main>
@@ -58,7 +61,7 @@ export default function AppLogged({ user, onLogout }: AppLoggedProps) {
             <Route path="/tags" element={<Tags user={user} />} />
             <Route
               path="/deleted-things"
-              element={<DeletedThings user={user} />}
+              element={<DeletedThings user={user} thingTags={tags} />}
             />
           </Routes>
         </BrowserRouter>

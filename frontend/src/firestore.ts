@@ -63,7 +63,7 @@ export const setupThingsSnapshot = (
 ) => {
   let isFirstLoad = true;
 
-  onSnapshot(
+  return onSnapshot(
     query(
       thingsCollection,
       where("uid", "==", uid),
@@ -84,6 +84,11 @@ export const setupThingsSnapshot = (
   );
 };
 
+export const firestoreDeleteDeletedThing = (
+  id: string,
+  onSuccess: () => void
+) => deleteDoc(doc(firestore, "deletedThings", id)).then(onSuccess);
+
 export const setupDeletedThingsSnapshot = (
   uid: string,
   onSuccess: (things: readonly ThingWithChange[]) => void,
@@ -91,7 +96,7 @@ export const setupDeletedThingsSnapshot = (
 ) => {
   let isFirstLoad = true;
 
-  onSnapshot(
+  return onSnapshot(
     query(
       deletedThingsCollection,
       where("uid", "==", uid),
