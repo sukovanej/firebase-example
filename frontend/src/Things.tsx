@@ -6,8 +6,8 @@ import {
 import { thingTagFromId } from "./utils";
 import { User } from "firebase/auth";
 import { ThingInput, ThingTag } from "./schema";
-import NewThingForm from "./NewThingForm";
 import ThingItem from "./ThingItem";
+import NewThingFormModal from "./NewThingFormModal";
 
 interface ThingsProps {
   user: User;
@@ -26,7 +26,11 @@ export default function Things({ user, thingTags, things }: ThingsProps) {
 
   return (
     <section>
-      <NewThingForm onSubmit={addThing} thingTags={thingTags} user={user} />
+      <NewThingFormModal
+        onSubmit={addThing}
+        thingTags={thingTags}
+        user={user}
+      />
       <ul className="list">
         {things.map((thing) => (
           <ThingItem
